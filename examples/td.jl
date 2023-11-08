@@ -1,9 +1,8 @@
 using JuMP
 using GLPK
-using JSON, OrderedCollections
 
 function ex4(n::Int64)    
-    #= m = Model(GLPK.Optimizer)
+    m = Model(GLPK.Optimizer)
     @variable(m, z[1:n]>=0, Int)
     @variable(m, y>=0)
     @constraint(m, [i in 1:floor(Int,n/2)], z[i]+z[n-i+1]<=n)
@@ -18,14 +17,5 @@ function ex4(n::Int64)
     vz = JuMP.value.(z)
     vy = JuMP.value.(y)
     obj = objective_value(m)
-    return vz, vy, obj =#
-    train1 = OrderedCollections.OrderedDict(
-        "0" => OrderedCollections.OrderedDict(
-            "voieAQuai" => "V2",
-            "itineraire" => "0"
-        )
-    )
-    open("test.json", "w") do f
-        JSON.print(f, train1)
-    end
+    return vz, vy, obj
 end
